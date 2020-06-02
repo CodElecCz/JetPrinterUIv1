@@ -1,2 +1,2 @@
 # JetPrinterUIv1
-JetPrinter inteface for Ink printing station
+JetPrinter intetface for Ink printing station
