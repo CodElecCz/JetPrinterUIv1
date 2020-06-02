@@ -1,0 +1,67 @@
+<RCC>
+    <qresource prefix="/">
+        <file>JetPrinter.ico</file>
+        <file>images/scheduled_tasks.ico</file>
+        <file>images/button_cancel.ico</file>
+        <file>images/player_play.ico</file>
+        <file>images/printer.ico</file>
+        <file>images/user.ico</file>
+        <file>images/settings.ico</file>
+        <file>images/save.ico</file>
+        <file>images/reload.ico</file>
+        <file>images/OMC8000_LCD.png</file>
+        <file>images/screen.ico</file>
+        <file>images/plus.ico</file>
+        <file>images/minus.ico</file>
+        <file>images/info.ico</file>
+        <file>images/masssag.ico</file>
+        <file>images/plc.ico</file>
+        <file>images/gui.ico</file>
+        <file>images/checkbox_checked.ico</file>
+        <file>images/checkbox_unchecked.ico</file>
+        <file>images/arrow_left.ico</file>
+        <file>images/arrow_right.ico</file>
+        <file>fonts/Code 5x5.ttf</file>
+        <file>fonts/Code 7x5.ttf</file>
+        <file>images/Send.ico</file>
+        <file>images/shutdown.ico</file>
+        <file>images/start.png</file>
+        <file>images/stop.png</file>
+        <file>images/box_open.ico</file>
+        <file>images/report.ico</file>
+        <file>images/Letters/Letter-B-gold.ico</file>
+        <file>images/Letters/Letter-B-grey.ico</file>
+        <file>images/Letters/Letter-B-orange.ico</file>
+        <file>images/Letters/Letter-C-blue.ico</file>
+        <file>images/Letters/Letter-R-blue.ico</file>
+        <file>images/Letters/Letter-V-blue.ico</file>
+        <file>images/Letters/Letter-W-lg.ico</file>
+        <file>images/Letters/I/black.ico</file>
+        <file>images/Letters/I/blue.ico</file>
+        <file>images/Letters/I/dg.ico</file>
+        <file>images/Letters/I/gold.ico</file>
+        <file>images/Letters/I/grey.ico</file>
+        <file>images/Letters/I/lg.ico</file>
+        <file>images/Letters/I/orange.ico</file>
+        <file>images/Letters/I/pink.ico</file>
+        <file>images/Letters/I/red.ico</file>
+        <file>images/Letters/I/violet.ico</file>
+        <file>images/Letters/O/black.ico</file>
+        <file>images/Letters/O/blue.ico</file>
+        <file>images/Letters/O/dg.ico</file>
+        <file>images/Letters/O/gold.ico</file>
+        <file>images/Letters/O/grey.ico</file>
+        <file>images/Letters/O/lg.ico</file>
+        <file>images/Letters/O/orange.ico</file>
+        <file>images/Letters/O/pink.ico</file>
+        <file>images/Letters/O/red.ico</file>
+        <file>images/Letters/O/violet.ico</file>
+        <file>images/LEDs/led_gray.png</file>
+        <file>images/LEDs/led_green.png</file>
+        <file>images/LEDs/led_red.png</file>
+        <file>images/box_insert.ico</file>
+        <file>images/arrow_down.ico</file>
+        <file>images/arrow_up.ico</file>
+        <file>images/totalstop.png</file>
+    </qresource>
+</RCC>

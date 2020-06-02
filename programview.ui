@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProgramView</class>
+ <widget class="QWidget" name="ProgramView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>580</width>
+    <height>484</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>20</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>551</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>PLC Stavy snímačů</string>
+   </property>
+   <widget class="QCheckBox" name="checkBox1">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>50</y>
+      <width>471</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QCheckBox::indicator {     width: 40px;      height: 40px; }
+QCheckBox::indicator:checked {   image: url(:/images/checkbox_checked.ico); }
+QCheckBox::indicator:unchecked {   image: url(:/images/checkbox_unchecked.ico); }</string>
+    </property>
+    <property name="text">
+     <string>Založení 01 aktivní - DÉLKA 500</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox2">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>100</y>
+      <width>451</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QCheckBox::indicator {     width: 40px;      height: 40px; }
+QCheckBox::indicator:checked {   image: url(:/images/checkbox_checked.ico); }
+QCheckBox::indicator:unchecked {   image: url(:/images/checkbox_unchecked.ico); }</string>
+    </property>
+    <property name="text">
+     <string>Založení 02 aktivní - DÉLKA 600</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox3">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>150</y>
+      <width>411</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QCheckBox::indicator {     width: 40px;      height: 40px; }
+QCheckBox::indicator:checked {   image: url(:/images/checkbox_checked.ico); }
+QCheckBox::indicator:unchecked {   image: url(:/images/checkbox_unchecked.ico); }</string>
+    </property>
+    <property name="text">
+     <string>Snímač 01 aktivní - MATKA</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox4">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>200</y>
+      <width>411</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QCheckBox::indicator {     width: 40px;      height: 40px; }
+QCheckBox::indicator:checked {   image: url(:/images/checkbox_checked.ico); }
+QCheckBox::indicator:unchecked {   image: url(:/images/checkbox_unchecked.ico); }</string>
+    </property>
+    <property name="text">
+     <string>Snímač 02 aktivní - MOTÝL</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox5">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>250</y>
+      <width>411</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QCheckBox::indicator {     width: 40px;      height: 40px; }
+QCheckBox::indicator:checked {   image: url(:/images/checkbox_checked.ico); }
+QCheckBox::indicator:unchecked {   image: url(:/images/checkbox_unchecked.ico); }</string>
+    </property>
+    <property name="text">
+     <string>Snímač 03 aktivní - ŠROUB</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox6">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>300</y>
+      <width>411</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QCheckBox::indicator {     width: 40px;      height: 40px; }
+QCheckBox::indicator:checked {   image: url(:/images/checkbox_checked.ico); }
+QCheckBox::indicator:unchecked {   image: url(:/images/checkbox_unchecked.ico); }</string>
+    </property>
+    <property name="text">
+     <string>Čekej na tlačítko Start</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>35</width>
+      <height>35</height>
+     </size>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="labelVersionName1">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>0</y>
+     <width>101</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Jméno:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit2">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>60</y>
+     <width>341</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>01_TYCKA</string>
+   </property>
+   <property name="maxLength">
+    <number>16</number>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit1">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>10</y>
+     <width>431</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1 - Program01</string>
+   </property>
+   <property name="maxLength">
+    <number>32</number>
+   </property>
+   <property name="clearButtonEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelVersionName2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>181</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tisková úloha:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
