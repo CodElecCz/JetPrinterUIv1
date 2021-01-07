@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omc8000>
+  <task id="OMC8000" ip="192.168.5.34" local_port="57999" remote_port="57999" loop_time="500" desc="OMC8000">
+      <area id="COUNTER" type="Variable" variable="@GV.COUNTER" desc="Počítadlo kusů" access="R">
+        <node id="PCS" type="DWORD" offset="0" desc=""/>  
+      </area>
+      <area id="SETTINGS" type="Variable" variable="@GV.PC_PROGRAM" desc="Program Settings" access="RW">
+        <node id="PC_PROGRAM" type="BYTE" offset="0" desc=""/>  
+        <node id="JIG_D500" type="BOOL" offset="0" desc="Zkontroluj snímač"/>      	
+        <node id="JIG_D600" type="BOOL" offset="1" desc="Zkontroluj snímač"/>
+        <node id="JIG_MATKA" type="BOOL" offset="2" desc="Zkontroluj snímač"/>
+        <node id="JIG_MOTYL" type="BOOL" offset="3" desc="Zkontroluj snímač"/>
+        <node id="JIG_SROUB" type="BOOL" offset="4" desc="Zkontroluj snímač"/>
+        <node id="START" type="BOOL" offset="5" desc="Čekej na tlačítko Start"/>
+        <node id="Reserve_6" type="BOOL" offset="6" desc=""/>
+        <node id="Reserve_7" type="BOOL" offset="7" desc=""/>  
+      </area>
+      <area id="PROGRAM" type="Variable" variable="@GV.PC_ACT" desc="Program selected" access="RW">
+        <node id="PC_ACT" type="WORD" offset="0" desc=""/>  
+      </area>
+      <area id="SEQUENCE" type="Variable" variable="@GV.STEP" desc="PLC Status" access="R">
+        <node id="STEP" type="WORD" offset="0" desc=""/>  
+      </area>
+      <area id="DISPLAY" type="Variable" variable="@GV.COLOR" desc="PLC Status" access="R">
+        <node id="COLOR" type="DWORD" offset="0" desc=""/>  
+        <node id="COLOR_DELKA" type="BYTE" offset="0" desc=""/>  
+        <node id="COLOR_MATKA" type="BYTE" offset="1" desc=""/>
+        <node id="COLOR_MOTYL" type="BYTE" offset="2" desc=""/>
+        <node id="COLOR_SROUB" type="BYTE" offset="3" desc=""/>
+      </area>
+      <area id="IN0" type="Variable" variable="@GV.IN_Byte2" desc="Inputs" access="R">
+      	<node id="TESTER_TS" type="BOOL" offset="0" desc="[PLC_1 DI2.0] - Nouzové vypnutí pohyblivých částí"/>      	
+        <node id="Reserve_1" type="BOOL" offset="1" desc="[PLC_1 DI2.1]"/>
+        <node id="Reserve_2" type="BOOL" offset="2" desc="[PLC_1 DI2.2]"/>
+        <node id="Reserve_3" type="BOOL" offset="3" desc="[PLC_1 DI2.3]"/>
+        <node id="Reserve_4" type="BOOL" offset="4" desc="[PLC_1 DI2.4]"/>
+        <node id="JIG_MOTYL" type="BOOL" offset="5" desc="[PLC_1 DI2.5] - Jig signál Motyl"/>
+        <node id="JIG_D500" type="BOOL" offset="6" desc="[PLC_1 DI2.6] - Jig signál Délka 500mm"/>
+        <node id="JIG_D600" type="BOOL" offset="7" desc="[PLC_1 DI2.7] - Jig signál Délka 600mm"/>  
+      </area>
+      <area id="IN1" type="Variable" variable="@GV.IN_Byte3" desc="Inputs" access="R">
+      	<node id="JIG_INSERT" type="BOOL" offset="0" desc="[PLC_1 DI3.0] - Jig signál Rovinnost"/>      	
+        <node id="PRINT_HOME" type="BOOL" offset="1" desc="[PLC_1 DI3.1] - Tisková hlava pozice Home"/>
+        <node id="Reserve_2" type="BOOL" offset="2" desc="[PLC_1 DI3.2]"/>
+        <node id="TESTER_START" type="BOOL" offset="3" desc="[PLC_1 DI3.3] - Tlačítko start programu"/>
+        <node id="JIG_SROUB" type="BOOL" offset="4" desc="[PLC_1 DI3.4] - Jig signál Sroub"/>
+        <node id="JIG_MATKA" type="BOOL" offset="5" desc="[PLC_1 DI3.5] - Jig signál Matka"/>
+        <node id="Reserve_6" type="BOOL" offset="6" desc="[PLC_1 DI3.6]"/>
+        <node id="Reserve_7" type="BOOL" offset="7" desc="[PLC_1 DI3.7]"/>  
+      </area>
+      <area id="OUT0" type="Variable" variable="@GV.OUT_Byte0" desc="Outputs" access="R">
+      	<node id="Reserve_0" type="BOOL" offset="0" desc="[PLC DO0.0]"/>  
+        <node id="TESTER_LED_START" type="BOOL" offset="1" desc="[PLC DO0.1] - Podsvit tlačítka Start"/>
+        <node id="TESTER_LED_RED" type="BOOL" offset="2" desc="[PLC DO0.2] - Světelna signalizace Chyba"/>
+        <node id="TESTER_LED_GREEN" type="BOOL" offset="3" desc="[PLC DO0.3] - Světelna signalizace Ok"/>
+        <node id="PRINT_SPEED" type="BOOL" offset="4" desc="[PLC DO0.4] - Dosaženi rychlosti"/>    	
+        <node id="Reserve_5" type="BOOL" offset="5" desc=""/>
+        <node id="Reserve_6" type="BOOL" offset="6" desc=""/>
+        <node id="Reserve_7" type="BOOL" offset="7" desc=""/>  
+      </area>
+      <area id="OUT1" type="Variable" variable="@GV.OUT_Byte1" desc="Outputs" access="R">
+      	<node id="Reserve_0" type="BOOL" offset="0" desc="[PLC_2 DO1.0]"/>      	
+        <node id="PRINT_JOB3" type="BOOL" offset="1" desc="[PLC_2 DO1.1]"/>
+        <node id="PRINT_JOB2" type="BOOL" offset="2" desc="[PLC_2 DO1.2]"/>
+        <node id="PRINT_START" type="BOOL" offset="3" desc="[PLC_2 DO1.3]"/>
+        <node id="PRINT_JOB0" type="BOOL" offset="4" desc="[PLC_2 DO1.4]"/>
+        <node id="PRINT_JOB1" type="BOOL" offset="5" desc="[PLC_2 DO1.5]"/>
+        <node id="Reserve_6" type="BOOL" offset="6" desc="[PLC_2 DO1.6]"/>
+        <node id="Reserve_7" type="BOOL" offset="7" desc="[PLC_2 DO1.7]"/>  
+      </area>
+  </task>
+</omc8000>

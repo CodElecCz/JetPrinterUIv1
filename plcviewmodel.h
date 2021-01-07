@@ -7,7 +7,7 @@
 #include "plcviewitem.h"
 #include "OMC8000Lib/OMC8000Lib.h"
 
-using namespace Utils::OMC8000;
+using namespace Utilities::OMC8000;
 
 class PlcViewModel : public QAbstractItemModel
 {
@@ -41,10 +41,10 @@ private slots:
 
 private:
     void setupModelData(OMC8000Lib* omc8000lib, const QString xmlFile, PlcViewItem *parent);
-    void setupDefaultNode(PlcViewItem* parentItem, OMC8000NodeInterface* parentNode);
-    void setupNode(QDomElement parentElem, PlcViewItem* parentItem, OMC8000NodeInterface* parentNode);
+    void setupDefaultNode(PlcViewItem* parentItem, INode* parentNode);
+    void setupNode(QDomElement parentElem, PlcViewItem* parentItem, INode* parentNode);
     PlcViewItem *getItem(const QModelIndex &index) const;
-    void OnValueChanged(OMC8000NodeInterface* node, UINT32 val);
+    void OnValueChanged(INode* node, UINT32 val);
     void updateNode(QString itemName, QModelIndex parentIndex);
 
     PlcViewItem *rootItem;

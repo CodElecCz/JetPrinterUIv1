@@ -97,7 +97,7 @@ void PlcViewModel::update()
     }
 }
 
-void PlcViewModel::OnValueChanged(OMC8000NodeInterface* node, UINT32 val)
+void PlcViewModel::OnValueChanged(INode *node, UINT32 val)
 {
     if (thread()!=QThread::currentThread())
     {
@@ -276,15 +276,15 @@ bool PlcViewModel::removeRows(int position, int rows, const QModelIndex &parent)
     return success;
 }
 
-void PlcViewModel::setupDefaultNode(PlcViewItem* parentItem, OMC8000NodeInterface* parentNode)
+void PlcViewModel::setupDefaultNode(PlcViewItem* parentItem, INode* parentNode)
 {
     PlcViewItem* nodeItem;
-    vector<OMC8000NodeInterface*> nodeList = parentNode->GetNodes();
+    vector<INode*> nodeList = parentNode->GetNodes();
     for(UINT32 i = 0; i<nodeList.size(); i++)
     {
-        OMC8000NodeInterface* node  = nodeList[i];
+        INode* node  = nodeList[i];
 
-        node->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
+        node->OnValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
         nodeItem = new PlcViewItem(node, parentItem);
 
         //search for subnodes
@@ -326,9 +326,9 @@ PlcViewItemStateColors Omc8000ItemColor(QString scolor)
     return color;
 }
 
-void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, OMC8000NodeInterface* parentNode)
+void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, INode* parentNode)
 {
-    OMC8000NodeInterface *node;
+    INode *node;
     PlcViewItem* nodeItem;
 
     QDomNode nodeNode = parentElem.firstChild();
@@ -352,11 +352,11 @@ void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, OM
                 isR = (access.indexOf(QChar('R'))>=0);
                 isW = (access.indexOf(QChar('W'))>=0);
             }
-            OMC8000NodeAccess node_access = (OMC8000NodeAccess)((isR? OMC8000NodeAccessRead:0)|(isW? OMC8000NodeAccessWrite:0));
+            NodeAccess node_access = (NodeAccess)((isR? NodeAccess_Read:0)|(isW? NodeAccess_Write:0));
 
             if(stype.contains("REAL", Qt::CaseInsensitive))
             {
-                parentNode->AddNode(sid.toLatin1().constData(), OMC8000NodeReal32, offset.toUShort(), node_access);
+                parentNode->CreateNode(sid.toLatin1().constData(), NodeType_Real32, offset.toUShort(), node_access);
                 node = parentNode->GetNodeInterface(sid.toLatin1().constData());
                 node->Description(sdesc.toUtf8().constData());
                 //node->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
@@ -369,7 +369,7 @@ void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, OM
             }
             else if(stype.contains("DWORD", Qt::CaseInsensitive))
             {
-                parentNode->AddNode(sid.toLatin1().constData(), OMC8000NodeDWord, offset.toUShort(), node_access);
+                parentNode->CreateNode(sid.toLatin1().constData(), NodeType_DWord, offset.toUShort(), node_access);
                 node = parentNode->GetNodeInterface(sid.toLatin1().constData());
                 node->Description(sdesc.toUtf8().constData());
                 //node->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
@@ -382,7 +382,7 @@ void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, OM
             }
             else if(stype.contains("WORD", Qt::CaseInsensitive))
             {
-                parentNode->AddNode(sid.toLatin1().constData(), OMC8000NodeWord, offset.toUShort(), node_access);
+                parentNode->CreateNode(sid.toLatin1().constData(), NodeType_Word, offset.toUShort(), node_access);
                 node = parentNode->GetNodeInterface(sid.toLatin1().constData());
                 node->Description(sdesc.toUtf8().constData());
                 //node->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
@@ -395,7 +395,7 @@ void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, OM
             }
             else if(stype.contains("BYTE", Qt::CaseInsensitive))
             {
-                parentNode->AddNode(sid.toLatin1().constData(), OMC8000NodeByte, offset.toUShort(), node_access);
+                parentNode->CreateNode(sid.toLatin1().constData(), NodeType_Byte, offset.toUShort(), node_access);
                 node = parentNode->GetNodeInterface(sid.toLatin1().constData());
                 node->Description(sdesc.toUtf8().constData());
                 //node->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
@@ -408,7 +408,7 @@ void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, OM
             }
             if(stype.contains("BIT", Qt::CaseInsensitive) || stype.contains("BOOL", Qt::CaseInsensitive))
             {
-                parentNode->AddNode(sid.toLatin1().constData(), OMC8000NodeBit, offset.toUShort(), node_access);
+                parentNode->CreateNode(sid.toLatin1().constData(), NodeType_Bit, offset.toUShort(), node_access);
                 node = parentNode->GetNodeInterface(sid.toLatin1().constData());
                 node->Description(sdesc.toUtf8().constData());
                 //node->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
@@ -447,8 +447,8 @@ void PlcViewModel::setupNode(QDomElement parentElem, PlcViewItem* parentItem, OM
 void PlcViewModel::setupModelData(OMC8000Lib* omc8000, const QString xmlFile, PlcViewItem *parent)
 {
     OMC8000Task *task;
-    OMC8000NodeInterface *taskInterface;
-    OMC8000NodeInterface *area;
+    INode *taskInterface;
+    INode *area;
     PlcViewItem* taskItem;
     PlcViewItem* areaItem;
 
@@ -492,17 +492,17 @@ void PlcViewModel::setupModelData(OMC8000Lib* omc8000, const QString xmlFile, Pl
                  omc8000->AddTask(sid.toLatin1().data(), scom.toLatin1().data(), (SerialProtocol::BaudRate)sbaudrate.toUInt(0, 10) , st.toUInt());
             }
             task = omc8000->GetTask(sid.toLatin1().constData());
-            taskInterface = static_cast<OMC8000NodeInterface*>(task);
+            taskInterface = static_cast<INode*>(task);
             if(!sdesc.isNull() && !sdesc.isEmpty())
                 taskInterface->Description(sdesc.toUtf8().data());
             taskItem = new PlcViewItem(taskInterface, parent);
 
             //check default areas
-            vector<OMC8000NodeInterface*> areaList = task->GetNodes();
+            vector<INode*> areaList = task->GetNodes();
             for(UINT32 i = 0; i<areaList.size(); i++)
             {
                 area = areaList[i];
-                area->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
+                area->OnValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
                 areaItem = new PlcViewItem(area, taskItem);
 
                 //search for subnodes
@@ -534,7 +534,7 @@ void PlcViewModel::setupModelData(OMC8000Lib* omc8000, const QString xmlFile, Pl
                         isR = (access.indexOf(QChar('R'))>=0) || (access.indexOf(QChar('r'))>=0);
                         isW = (access.indexOf(QChar('W'))>=0) || (access.indexOf(QChar('w'))>=0);
                     }
-                    OMC8000NodeAccess node_access = (OMC8000NodeAccess)((isR? OMC8000NodeAccessRead:0)|(isW? OMC8000NodeAccessWrite:0));
+                    NodeAccess node_access = (NodeAccess)((isR? NodeAccess_Read:0)|(isW? NodeAccess_Write:0));
 
                     //serial dev id
                     UINT8 devid = 255;
@@ -546,7 +546,7 @@ void PlcViewModel::setupModelData(OMC8000Lib* omc8000, const QString xmlFile, Pl
                     task->AddArea(sid.toLatin1().constData(), svariable.toLatin1().constData(), node_access);
                     area = task->GetNodeInterface(sid.toLatin1().data());
                     area->Description(sdesc.toUtf8().constData());
-                    area->OnNodeValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
+                    area->OnValueChanged += event_handler(this, &PlcViewModel::OnValueChanged);
                     areaItem = new PlcViewItem(area, taskItem);
 
                     //nodes

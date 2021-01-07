@@ -1,0 +1,150 @@
+Global_Variables - definice vsech vstupu/vystupu
+Rele BYTE Address:%QB0
+Input BOOL Address:%IX0.0
+Output BOOL Address:%QX0.0        (VAR_GLOBAL)
+
+Hlavní modul OMC 8000 má dva byty logických vstupů a jeden výstupů:
+Adresa %IX0.0 až %IX0.5 – univerzální vstupy
+Adresa %IX1.0 až %IX1.2 – vstupy reagující na napájecí napětí
+Adresa %QX0.0 až %QX0.4 – výstupy
+
+Adresa %IX2.0 až %IX2.7 - nasledujici modul
+Adresa %IX3.0 až %IX3.7 - nasledujici modul
+Adresa %QX1.0 až %QX1.7 – prvních 8 výstupů nasledujici modul
+
+Konstanty:
+real#-1.291
+BYTE#0
+
+Task:
+BOOTPLC:SYSTEM / T_100ms:CYCLIC
+Tisk 250ms / 100ms watchdog - LCD obrazovka
+
+--------------------------------------------------------------------------------
+(* tento program meni hodnotu X podle stisknuteho tlacitka a predchozi hodnoty*)
+aux := ReadLastKeys();
+enab := false;
+R_TRIG_1(CLK := BitFromInt(aux, 0));
+if R_TRIG_1.Q then
+	CASE BYTE_TO_INT(x) OF
+		0:   X := byte#8;
+		8:   X := byte#24;
+		ELSE X := byte#48;
+	END_CASE;
+	enab := true;
+end_if;
+R_TRIG_2(CLK := BitFromInt(aux, 3));
+if R_TRIG_2.Q then
+	CASE BYTE_TO_INT(x) OF
+		48:  X := byte#24;
+		24:  X := byte#8;
+		ELSE X := byte#0;
+	END_CASE;
+	enab := true;
+end_if;
+ClearScreen_1(Red:=BYTE#0,Green:=BYTE#0,Blue:=BYTE#0,Enable:=Enab);
+
+
+--------------------------------------------------------------------------------
+CurrKey:=ReadCurrentKeys();
+CurrKey:=AndInt(CurrKey, 127);
+
+(* wait for key releasing *)
+if WaitForKeyRelease then
+	if not (CurrKey = 0) then
+		CurrKey := -1;				(* means invalid key *)
+	else
+		WaitForKeyRelease := false;
+	end_if;
+end_if;
+
+CASE CurrKey OF
+
+	2: (* key OK *)
+		IF InputSelect < 4 THEN
+			InputSelect := InputSelect + 1;
+		ELSE
+			InputSelect := 0;
+		END_IF;
+
+		WaitForKeyRelease := true;
+
+END_CASE;
+
+InputBYTE_1	(	Blink_Period:=2,
+				AssignedVar:=VarByte,
+				Enabled:=(InputSelect=0),
+				Label:='BYTE: ',
+				Red:=BYTE#255,
+				Green:=BYTE#255,
+				Blue:=BYTE#0,
+				X:=BYTE#20,
+				Y:=BYTE#60,
+				CurrentKey:=CurrKey,
+				FontSize:=0);
+
+(* result into the same variable *)
+VarByte:=InputBYTE_1.AssignedVar;
+
+InputInt_1	(	Blink_Period:=2,
+				AssignedVar:=VarInt,
+				Enabled:=(InputSelect=1),
+				Label:='INT: ',
+				Red:=BYTE#255,
+				Green:=BYTE#255,
+				Blue:=BYTE#0,
+				X:=BYTE#20,
+				Y:=BYTE#70,
+				CurrentKey:=CurrKey,
+				FontSize:=0);
+
+(* result into the same variable *)
+VarInt:=InputInt_1.AssignedVar;
+
+InputDInt_1	(	Blink_Period:=2,
+				AssignedVar:=VarDint,
+				Enabled:=(InputSelect=2),
+				Label:='DINT: ',
+				Red:=BYTE#255,
+				Green:=BYTE#255,
+				Blue:=BYTE#0,
+				X:=BYTE#20,
+				Y:=BYTE#80,
+				CurrentKey:=CurrKey,
+				FontSize:=0);
+
+(* result into the same variable *)
+VarDint:=InputDInt_1.AssignedVar;
+
+InputREALExtra_1(	Blink_Period:=2,
+					AssignedVar:=VarReal,
+					Enabled:=(InputSelect=3),
+					Label:='REAL: ',
+					Red:=BYTE#255,
+					Green:=BYTE#255,
+					Blue:=BYTE#0,
+					X:=BYTE#20,
+					Y:=BYTE#90,
+					CurrentKey:=CurrKey,
+					FontSize:=0,
+					Precision:=2);
+
+(* result into the same variable *)
+VarReal:=InputREALExtra_1.AssignedVar;
+
+InputUDINT_1(Blink_Period:=2,
+				AssignedVar:=VarUdint,
+				Enabled:=(InputSelect=4),
+				Label:='UDINT: ',
+				Red:=BYTE#255,
+				Green:=BYTE#255,
+				Blue:=BYTE#0,
+				X:=BYTE#20,
+				Y:=BYTE#100,
+				CurrentKey:=CurrKey,
+				FontSize:=0);
+
+(* result into the same variable *)
+VarUdint:=InputUDINT_1.AssignedVar;
+
+

@@ -22,14 +22,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Lib/Build64/release/ -lJetPrinter -lOMC8000
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Lib/Build64/debug/ -lJetPrinter -lOMC8000
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Lib/Build64/release/ -lJetPrinter -lOMC8000 -lSharedNodes
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Lib/Build64/debug/ -lJetPrinter -lOMC8000 -lSharedNodes
 
-INCLUDEPATH += $$PWD/../../Lib/ \
-    $$PWD/../../Lib/Build64/
+INCLUDEPATH += Lib/
 
-DEPENDPATH += $$PWD/../../Lib/ \
-    $$PWD/../../Lib/Build64/
+DEPENDPATH += Lib/
+DEPENDPATH += Lib/Build64/
 
 SOURCES += \
     main.cpp \

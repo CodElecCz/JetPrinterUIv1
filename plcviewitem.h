@@ -4,9 +4,9 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
-#include "OMC8000Lib/OMC8000Lib.h"
+#include "Lib/OMC8000Lib/OMC8000Lib.h"
 
-using namespace Utils::OMC8000;
+using namespace Utilities::OMC8000;
 
 enum PlcViewTreeColumn
 {
@@ -53,7 +53,7 @@ enum PlcViewItemStateColors
 class PlcViewItem
 {
 public:
-    PlcViewItem(OMC8000NodeInterface *data = 0, PlcViewItem *parent = 0);
+    PlcViewItem(INode *data = 0, PlcViewItem *parent = 0);
     ~PlcViewItem();
 
     void appendChild(PlcViewItem *child);
@@ -77,7 +77,7 @@ public:
     void setcolorOn(PlcViewItemStateColors stateColorOn) { this->stateColorOn = stateColorOn;}
     void setcolorOff(PlcViewItemStateColors stateColorOff) { this->stateColorOff = stateColorOff;}
 
-    OMC8000NodeInterface* node() const { return omc8000Node; }
+    INode* node() const { return treeNode; }
 
  private:
     QString GetNodeValue() const;
@@ -85,14 +85,15 @@ public:
     void SetNodeValue(UINT32 val);
 
  private:
-     QList<PlcViewItem*> childItems; //child nodes
-     QList<QVariant> itemData;      //column
-     PlcViewItem *parentItem;        //paren
+     QList<PlcViewItem*>    childItems; //child nodes
+     QList<QVariant>        itemData;      //column
+     PlcViewItem            *parentItem;        //paren
+     INode                  *treeNode; //child param
+
      PlcViewItemStateColors stateColorOn;
      PlcViewItemStateColors stateColorOff;
 
      OMC8000Lib *omc8000; //root node
-     OMC8000NodeInterface *omc8000Node; //child param
 };
 
 #endif // OMC8000ITEM_H

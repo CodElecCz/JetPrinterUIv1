@@ -8,7 +8,6 @@
 #include <QMessageBox>
 #include <QSqlError>
 #include <QTcpSocket>
-#include "OMC8000Lib/OMC8000Types.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -103,7 +102,7 @@ void MainWindow::responsePlc(QString cmd, QString* response)
                 response->append(QString::number(++COUNTER, 10));
             else if(cmd.contains("Pdisplay.COLOR"))
             {
-                UINT32_MB val;
+                UINT32_UT val;
 
                 COLOR_1 = 0;
                 COLOR_2 = 0;

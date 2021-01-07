@@ -15,7 +15,7 @@ public:
     }
 };
 
-PlcViewItem::PlcViewItem(OMC8000NodeInterface *node, PlcViewItem *parent)
+PlcViewItem::PlcViewItem(INode *node, PlcViewItem *parent)
     : stateColorOn(PlcViewItemStateColor_LightGreen), stateColorOff(PlcViewItemStateColor_Gray)
 {
    parentItem = parent;
@@ -37,47 +37,47 @@ PlcViewItem::PlcViewItem(OMC8000NodeInterface *node, PlcViewItem *parent)
        }
    }
 
-   omc8000Node = node;
+   treeNode = node;
 }
 
 QString PlcViewItem::GetNodeValue(void) const
 {
     QString s("");
 
-    switch(omc8000Node->Type())
+    switch(treeNode->Type())
     {
-    case OMC8000NodeBit:
+    case NodeType_Bit:
         {
         bool bval;
-        omc8000Node->Read(&bval);
+        treeNode->Read(&bval);
         s.sprintf("%01X", bval);
         }
         break;
-    case OMC8000NodeByte:
+    case NodeType_Byte:
         {
         UINT8 bval;
-        omc8000Node->Read(&bval);
+        treeNode->Read(&bval);
         s.sprintf("%02X", bval);
         }
         break;
-    case OMC8000NodeWord:
+    case NodeType_Word:
         {
         UINT16 bval;
-        omc8000Node->Read(&bval);
+        treeNode->Read(&bval);
         s.sprintf("%04X", bval);
         }
         break;
-    case OMC8000NodeDWord:
+    case NodeType_DWord:
         {
         UINT32 bval;
-        omc8000Node->Read(&bval);
+        treeNode->Read(&bval);
         s.sprintf("%08X", bval);
         }
         break;
-    case OMC8000NodeReal32:
+    case NodeType_Real32:
         {
         float bval;
-        omc8000Node->Read(&bval);
+        treeNode->Read(&bval);
         s.sprintf("%0.02f", bval);
         }
         break;
@@ -91,40 +91,40 @@ QString PlcViewItem::GetNodeWriteValue(void) const
 {
     QString s("");
 
-    switch(omc8000Node->Type())
+    switch(treeNode->Type())
     {
-    case OMC8000NodeBit:
+    case NodeType_Bit:
         {
         bool bval;
-        omc8000Node->Write(&bval);
+        treeNode->Write(&bval);
         s.sprintf("%01X", bval);
         }
         break;
-    case OMC8000NodeByte:
+    case NodeType_Byte:
         {
         UINT8 bval;
-        omc8000Node->Write(&bval);
+        treeNode->Write(&bval);
         s.sprintf("%02X", bval);
         }
         break;
-    case OMC8000NodeWord:
+    case NodeType_Word:
         {
         UINT16 bval;
-        omc8000Node->Write(&bval);
+        treeNode->Write(&bval);
         s.sprintf("%04X", bval);
         }
         break;
-    case OMC8000NodeDWord:
+    case NodeType_DWord:
         {
         UINT32 bval;
-        omc8000Node->Write(&bval);
+        treeNode->Write(&bval);
         s.sprintf("%08X", bval);
         }
         break;
-    case OMC8000NodeReal32:
+    case NodeType_Real32:
         {
         float bval;
-        omc8000Node->Write(&bval);
+        treeNode->Write(&bval);
         s.sprintf("%0.02f", bval);
         }
         break;
@@ -136,39 +136,39 @@ QString PlcViewItem::GetNodeWriteValue(void) const
 
 void PlcViewItem::SetNodeValue(UINT32 val)
 {
-    UINT32_MB Val;
+    UINT32_UT Val;
     Val.dword = val;
 
-    switch(omc8000Node->Type())
+    switch(treeNode->Type())
     {
-    case OMC8000NodeBit:
+    case NodeType_Bit:
         {
         bool v = Val.bit.b0;
-        omc8000Node->Write(v);
+        treeNode->Write(v);
         }
         break;
-    case OMC8000NodeByte:
+    case NodeType_Byte:
         {
         UINT8 b = Val.byte.byte0;
-        omc8000Node->Write(b);
+        treeNode->Write(b);
         }
         break;
-    case OMC8000NodeWord:
+    case NodeType_Word:
         {
         UINT16 w = Val.word.word0;
-        omc8000Node->Write(w);
+        treeNode->Write(w);
         }
         break;
-    case OMC8000NodeDWord:
+    case NodeType_DWord:
         {
         UINT32 w = Val.dword;
-        omc8000Node->Write(w);
+        treeNode->Write(w);
         }
         break;
-    case OMC8000NodeReal32:
+    case NodeType_Real32:
         {
         float w = Val.real32;
-        omc8000Node->Write(w);
+        treeNode->Write(w);
         }
         break;
     default:
@@ -205,22 +205,22 @@ QVariant PlcViewItem::data(int column) const
 {
     QString svar("");
     SYSTEMTIME t;
-    OMC8000Exception* e = NULL;
+    INodeException* e = NULL;
 
-    if(omc8000Node!=NULL)
+    if(treeNode!=NULL)
     {
         switch(column)
         {
         case PlcViewTreeColumn_Id:
-            return QString(omc8000Node->Id());
+            return QString(treeNode->Id());
         case PlcViewTreeColumn_Type:
-            return QString(omc8000Node->TypeStr());
+            return QString(treeNode->TypeStr());
         case PlcViewTreeColumn_Read:
-            if(omc8000Node->Access()&OMC8000NodeAccessRead)
+            if(treeNode->Access()&NodeAccess_Read)
             {
-                switch(omc8000Node->Type())
+                switch(treeNode->Type())
                 {
-                case OMC8000NodeBit:
+                case NodeType_Bit:
                     break;
                 default:
                     return GetNodeValue();
@@ -228,56 +228,56 @@ QVariant PlcViewItem::data(int column) const
             }
             break;
         case PlcViewTreeColumn_Write:
-            if(omc8000Node->Access()&OMC8000NodeAccessWrite)
+            if(treeNode->Access()&NodeAccess_Write)
             {
                 return GetNodeWriteValue();
             }
             break;
         case PlcViewTreeColumn_Counter:
-            switch(omc8000Node->Type())
+            switch(treeNode->Type())
             {
-            case OMC8000NodeBit:
-            case OMC8000NodeByte:
-            case OMC8000NodeWord:
-            case OMC8000NodeDWord:
-            case OMC8000NodeReal32:
-                svar.sprintf("%d", omc8000Node->GetCounter());
+            case NodeType_Bit:
+            case NodeType_Byte:
+            case NodeType_Word:
+            case NodeType_DWord:
+            case NodeType_Real32:
+                svar.sprintf("%d", treeNode->ReadCounter());
                 return svar;
             }
             break;
         case PlcViewTreeColumn_ReadTimeStamp:
-            if(omc8000Node->Access()&OMC8000NodeAccessRead)
+            if(treeNode->Access()&NodeAccess_Read)
             {
-                switch(omc8000Node->Type())
+                switch(treeNode->Type())
                 {
-                case OMC8000NodeArea:
-                    t = omc8000Node->ReadTimeStamp();
+                case NodeType_Task:
+                    t = treeNode->ReadTimeStamp();
                     svar.sprintf("%02d:%02d:%02d.%03d", (int)t.wHour, (int)t.wMinute, (int)t.wSecond, (int)t.wMilliseconds);
                     return svar;
                 }
             }
             break;
         case PlcViewTreeColumn_WriteTimeStamp:
-            if(omc8000Node->Access()&OMC8000NodeAccessWrite)
+            if(treeNode->Access()&NodeAccess_Write)
             {
-                switch(omc8000Node->Type())
+                switch(treeNode->Type())
                 {
-                case OMC8000NodeBit:
-                case OMC8000NodeByte:
-                case OMC8000NodeWord:
-                case OMC8000NodeDWord:
-                case OMC8000NodeReal32:
-                    t = omc8000Node->WriteTimeStamp();
+                case NodeType_Bit:
+                case NodeType_Byte:
+                case NodeType_Word:
+                case NodeType_DWord:
+                case NodeType_Real32:
+                    t = treeNode->WriteTimeStamp();
                     svar.sprintf("%02d:%02d:%02d.%03d", (int)t.wHour, (int)t.wMinute, (int)t.wSecond, (int)t.wMilliseconds);
                     return svar;
                 }
             }
             break;
         case PlcViewTreeColumn_Description:
-            return QString(omc8000Node->Description());
+            return QString(treeNode->Description());
             break;
         case PlcViewTreeColumn_Exception:
-            e = omc8000Node->GetLastException();
+            e = treeNode->GetLastException();
             if(e!=nullptr)
             {
                 QString svar;
@@ -329,9 +329,9 @@ bool PlcViewItem::removeChildren(int position, int count)
 
     for (int row = 0; row < count; ++row)
     {
-        const char* id = childItems.at(position)->omc8000Node->Id();
+        const char* id = childItems.at(position)->treeNode->Id();
         delete childItems.takeAt(position);
-        omc8000Node->RemoveNode(id);
+        treeNode->RemoveNode(id);
     }
 
     return true;
@@ -352,7 +352,7 @@ bool PlcViewItem::setData(int column, const QVariant &value)
 
     itemData[column] = value;
 
-    if(omc8000Node!=NULL)
+    if(treeNode!=NULL)
     {
         switch(column)
         {
@@ -371,31 +371,38 @@ bool PlcViewItem::setData(int column, const QVariant &value)
 
 bool PlcViewItem::setData(const QVariant &value)
 {
-    omc8000Node = VPtr<OMC8000NodeInterface>::asPtr(value);
+    treeNode = VPtr<INode>::asPtr(value);
     return true;
 }
 
 QVariant PlcViewItem::icon() const
 {
 
-    if(omc8000Node!=NULL)
+    if(treeNode!=NULL)
     {
-        switch(omc8000Node->Type())
+        switch(treeNode->Type())
         {
-        case OMC8000NodeBit:
-            return QIcon(":/images/Letters/Letter-B-gold.ico");
-        case OMC8000NodeByte:
-            return QIcon(":/images/Letters/Letter-B-orange.ico");
-        case OMC8000NodeWord:
-        case OMC8000NodeDWord:
-            return QIcon(":/images/Letters/Letter-W-lg.ico");
-        case OMC8000NodeTask:
-            return QIcon(":/images/Letters/scheduled_tasks.ico");
-        case OMC8000NodeReal32:
-            return QIcon(":/images/Letters/Letter-R-blue.ico");
-        case OMC8000NodeArea:
-            return QIcon(":/images/Letters/Letter-V-blue.ico");
-
+        case NodeType_Bit:
+            return QIcon(":/images/Letter-B-black.ico");
+        case NodeType_Byte:
+            return QIcon(":/images/Letter-B-black.ico");
+        case NodeType_Word:
+            return QIcon(":/images/Letter-W-black.ico");
+        case NodeType_DWord:
+        case NodeType_Real32:
+            return QIcon(":/images/Letter-D-black.ico");
+        case NodeType_UInt64:
+        case NodeType_Real64:
+            return QIcon(":/images/Letter-U-black.ico");
+        case NodeType_Task:
+            return QIcon(":/images/task.ico");
+        case NodeType_WordArray:
+        case NodeType_BitArray:
+        case NodeType_DWordArray:
+            //return QIcon(":/images/Letter-A-black.ico");
+            return QIcon(":/images/list.png");
+        default:
+            ;
         }
     }
 
@@ -404,13 +411,13 @@ QVariant PlcViewItem::icon() const
 
 QVariant PlcViewItem::iconState() const
 {
-    if(omc8000Node!=NULL)
+    if(treeNode!=NULL)
     {
-        switch(omc8000Node->Type())
+        switch(treeNode->Type())
         {
-        case OMC8000NodeBit:
+        case NodeType_Bit:
             bool bval;
-            omc8000Node->Read(&bval);
+            treeNode->Read(&bval);
             if(!bval)
             {
                 switch(stateColorOff)

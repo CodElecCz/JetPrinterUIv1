@@ -51,7 +51,7 @@ private:
     void writeSettings();
     void readSettings();
 
-    void OnValueChanged(OMC8000NodeInterface* node, UINT32 val);
+    void OnValueChanged(INode* node, UINT32 val);
 
 signals:
     //plc screen

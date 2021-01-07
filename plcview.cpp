@@ -158,14 +158,14 @@ void PlcView::on_treeView_clicked(const QModelIndex &index)
                     PlcViewItem *item = static_cast<PlcViewItem*>(index.internalPointer());
                     if(item!=NULL)
                     {
-                        OMC8000NodeInterface *node = item->node();
+                        INode *node = item->node();
                         if(node!=NULL)
                         {
                             bool val;
 
                             switch(node->Type())
                             {
-                                case OMC8000NodeBit:
+                                case NodeType_Bit:
                                     node->Write(&val);
                                     node->Write(!val);
                                     break;
@@ -176,7 +176,7 @@ void PlcView::on_treeView_clicked(const QModelIndex &index)
                 break;
         }
     }
-    catch(OMC8000Exception& e)
+    catch(INodeException& e)
     {
         QMessageBox::warning(this, "Warning", QString(e.what()));
     }
@@ -190,7 +190,7 @@ void PlcView::start()
 
         omc8000Lib->Start(true);
     }
-    catch(OMC8000Exception& e)
+    catch(INodeException& e)
     {
         QApplication::restoreOverrideCursor();
 
@@ -207,7 +207,7 @@ void PlcView::stop()
 
         omc8000Lib->Stop(true);
     }
-    catch(OMC8000Exception& e)
+    catch(INodeException& e)
     {
         QApplication::restoreOverrideCursor();
 
@@ -266,7 +266,7 @@ void PlcView::getTextLength(QVariant var)
 
 void PlcView::getColor(QVariant var)
 {
-    UINT32_MB val32;
+    UINT32_UT val32;
     val32.dword = var.toUInt();
 
     if(val32.byte.byte0<3)
@@ -330,18 +330,18 @@ void PlcView::delayStart()
         UINT32 val = 0;
         foreach(QString var, varList)
         {
-            OMC8000NodeInterface *node = getLib()->GetNodeInterfaceFromPath(var.toLatin1().data());
+            INode *node = getLib()->GetNodeInterfaceFromPath(var.toLatin1().data());
 
             //init
             node->Read(&val);
             OnValueChanged(node, val);
             //callback
-            node->OnNodeValueChanged += event_handler(this, &PlcView::OnValueChanged);
+            node->OnValueChanged += event_handler(this, &PlcView::OnValueChanged);
         }
 
         emit statusPlc("PLC: připojeno");
     }
-    catch(OMC8000Exception& e)
+    catch(INodeException& e)
     {
         QMessageBox::warning(this, "Warning", QString(e.what()));
 
@@ -350,7 +350,7 @@ void PlcView::delayStart()
 }
 
 
-void PlcView::OnValueChanged(OMC8000NodeInterface* node, UINT32 val)
+void PlcView::OnValueChanged(INode* node, UINT32 val)
 {
     QString *nodeId = new QString(node->Id());
     //qDebug()<<"PlcViewModel::OnValueChanged() [" + *nodeId + "] threadId:0x" + QString::number((int)thread()->currentThreadId(), 16);
@@ -419,7 +419,7 @@ void PlcView::plcProgram(UINT settings)
 {
     try
     {
-        UINT32_MB pval, sval;
+        UINT32_UT pval, sval;
 
         if(settings==0)
         {
@@ -435,7 +435,7 @@ void PlcView::plcProgram(UINT settings)
             getLib()->Write(this->settingsVar.toLatin1().data(), sval.byte.byte0);
         }
     }
-    catch(OMC8000Exception& e)
+    catch(INodeException& e)
     {
         QMessageBox::warning(this, "Warning", QString(e.what()));
     }

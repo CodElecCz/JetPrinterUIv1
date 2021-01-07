@@ -1,0 +1,23 @@
+Vstupy:
+TESTER_TS     desc="[PLC DI0.0] - Nouzové vypnutí pohyblivých èástí"
+JIG_MOTYL     desc="[PLC_1 DI2.5] - Jig signál Motyl"
+JIG_D500      desc="[PLC_1 DI2.6] - Jig signál Délka 500mm"
+JIG_D600      desc="[PLC_1 DI2.7] - Jig signál Délka 600mm"  
+JIG_INSERT    desc="[PLC_1 DI3.0] - Jig signál Rovinnost"      	
+PRINT_HOME    desc="[PLC_1 DI3.1] - Tisková hlava pozice Home"
+TESTER_START  desc="[PLC_1 DI3.3] - Tlaèítko start programu"
+JIG_SROUB     desc="[PLC_1 DI3.4] - Jig signál Sroub"
+JIG_MATKA     desc="[PLC_1 DI3.5] - Jig signál Matka"
+
+Výstupy:
+TESTER_LED_START  desc="[PLC DO0.1] - Podsvit tlaèítka Start"
+TESTER_LED_RED    desc="[PLC DO0.2] - Svìtelna signalizace Chyba"
+TESTER_LED_GREEN  desc="[PLC DO0.3] - Svìtelna signalizace Ok"
+PRINT_SPEED       desc="[PLC DO0.4] - Tiskni"
+
+Výstupy - nepoužito:   
+PRINT_JOB3        desc="[PLC_2 DO1.1]"
+PRINT_JOB2        desc="[PLC_2 DO1.2]"
+PRINT_START       desc="[PLC_2 DO1.3]"
+PRINT_JOB0        desc="[PLC_2 DO1.4]"
+PRINT_JOB1        desc="[PLC_2 DO1.5]"
